@@ -1,4 +1,6 @@
-using Scalar.AspNetCore; 
+using Scalar.AspNetCore;
+using BiblioTech2.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);  // inicializa una nueva instancia, encargada de leer la configuración de la aplicación (appsettings.json, variables de entorno, etc.)
                                                    // y de configurar los servicios que la aplicación necesita para funcionar correctamente)
@@ -10,7 +12,10 @@ builder.Services.AddControllers(); // llama a la carpeta Controllers y registra 
 builder.Services.AddOpenApi(); // scalar 
 
 var app = builder.Build(); // toma la configuracion y los servicios que de declararon posteriormente y construye la aplicación,
-                           // pasando al estado para recibir solicitudes HTTP y generar respuestas
+
+
+builder.Services.AddDbContext<BibliotecaContext>(opciones =>
+opciones.UseSqlServer(builder.Configuration.GetConnectionString("<BiblioTechConnection")));// pasando al estado para recibir solicitudes HTTP y generar respuestas
 
 
 // parte dos Pipeline de la aplicación, que se encarga de procesar las solicitudes HTTP entrantes y generar las respuestas correspondientes
